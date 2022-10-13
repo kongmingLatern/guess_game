@@ -13,7 +13,13 @@ fn main() {
 
         io::stdin().read_line(&mut guess).expect("Fail to read line");
 
-        let guess: u32 = guess.trim().parse().expect("Please type a number!");
+        // 处理无效输入，忽略非数字输入，让用户可以继续猜测
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                continue;
+            }
+        };
 
         match guess.cmp(&secret_number) {
             Ordering::Less => println!("Too small!"),
